@@ -7,3 +7,8 @@ export interface Track {
     isLoved: boolean;
     imageUrl: string | undefined;
 }
+
+export interface UserCredentials {
+    name: string;
+    key: string;
+}

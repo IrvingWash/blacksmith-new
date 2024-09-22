@@ -1,16 +1,13 @@
-interface Credentials {
-    key: string;
-    name: string;
-}
+import { UserCredentials } from "@domain/objects";
 
 export class CredentialStorage {
     private readonly _key: string = "blacksmith-credentials";
 
-    public save(credentials: Credentials) {
+    public save(credentials: UserCredentials) {
         localStorage.setItem(this._key, JSON.stringify(credentials));
     }
 
-    public load(): Credentials | null {
+    public load(): UserCredentials | null {
         const item = localStorage.getItem(this._key);
 
         if (item === null) {
