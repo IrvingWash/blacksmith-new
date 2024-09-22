@@ -1,0 +1,9 @@
+.container {
+	border: 1px solid $color-fancy-black;
+	border-radius: $size-border-radius-small;
+	padding: 5px;
+}
+
+.stretch {
+	width: 100%;
+}
