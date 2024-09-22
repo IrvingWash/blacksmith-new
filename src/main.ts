@@ -1,1 +1,1 @@
-console.log("blacksmith")
+console.log("blacksmith");
