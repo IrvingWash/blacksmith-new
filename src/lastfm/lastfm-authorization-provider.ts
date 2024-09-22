@@ -1,4 +1,5 @@
 import { getAuthRedirectUrl } from "@utils/authentication";
+import { CredentialStorage } from "@utils/credential-storage";
 import { LastFmRequestsEnvironment } from "@lastfm/lastfm-requests-environment";
 import { LastFmGetSessionResponse } from "@lastfm/lastfm-objects";
 
@@ -22,13 +23,16 @@ export const enum LastFmAuthenticationHandlingParams {
 export class LastFmAuthorizationProvider {
     private readonly _requestsEnvironment: LastFmRequestsEnvironment;
     private readonly _apiKey: string;
+    private readonly _credentialStorage: CredentialStorage;
 
     public constructor(
         requestsEnvironment: LastFmRequestsEnvironment,
-        apiKey: string
+        apiKey: string,
+        credentialStorage: CredentialStorage
     ) {
         this._requestsEnvironment = requestsEnvironment;
         this._apiKey = apiKey;
+        this._credentialStorage = credentialStorage;
     }
 
     /**
@@ -41,11 +45,9 @@ export class LastFmAuthorizationProvider {
             throw new Error(tokenResponse.error);
         }
 
-        const session = await this._getSession(tokenResponse.token);
+        const sessionResponse = await this._getSession(tokenResponse.token);
 
-        // biome-ignore lint/suspicious/noConsoleLog: <explanation>
-        // biome-ignore lint/suspicious/noConsole: <explanation>
-        console.log(session);
+        this._credentialStorage.save(sessionResponse.session);
     }
 
     private async _getToken(): Promise<TokenResponse> {
@@ -66,6 +68,18 @@ export class LastFmAuthorizationProvider {
         return await this._waitForToken();
     }
 
+    private _waitForToken(): Promise<TokenResponse> {
+        const bc = new BroadcastChannel(
+            LastFmAuthenticationHandlingParams.BroadcastChannelName
+        );
+
+        return new Promise((resolve) => {
+            bc.onmessage = (event: MessageEvent<TokenResponse>) => {
+                resolve(event.data);
+            };
+        });
+    }
+
     private async _getSession(
         token: string
     ): Promise<LastFmGetSessionResponse> {
@@ -77,17 +91,5 @@ export class LastFmAuthorizationProvider {
         const response = await fetch(requestMetaInfo.url);
 
         return response.json();
-    }
-
-    private _waitForToken(): Promise<TokenResponse> {
-        const bc = new BroadcastChannel(
-            LastFmAuthenticationHandlingParams.BroadcastChannelName
-        );
-
-        return new Promise((resolve) => {
-            bc.onmessage = (event: MessageEvent<TokenResponse>) => {
-                resolve(event.data);
-            };
-        });
     }
 }

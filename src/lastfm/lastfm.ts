@@ -1,4 +1,5 @@
 import { EnvExtractor } from "@utils/env-extractor";
+import { CredentialStorage } from "@utils/credential-storage";
 import { LastFmRequestsEnvironment } from "@lastfm/lastfm-requests-environment";
 import { LastFmAuthorizationProvider } from "@lastfm/lastfm-authorization-provider";
 import { LastFmCallSigner } from "@lastfm/lastfm-call-signer";
@@ -9,7 +10,7 @@ export class LastFm {
     private readonly _requestsEnvironment: LastFmRequestsEnvironment;
     private readonly _authorizationProvider: LastFmAuthorizationProvider;
 
-    public constructor() {
+    public constructor(credentialStorage: CredentialStorage) {
         const callSigner = new LastFmCallSigner(
             EnvExtractor.lastFmSharedSecret()
         );
@@ -20,7 +21,8 @@ export class LastFm {
         );
         this._authorizationProvider = new LastFmAuthorizationProvider(
             this._requestsEnvironment,
-            EnvExtractor.lastFmApiKey()
+            EnvExtractor.lastFmApiKey(),
+            credentialStorage
         );
     }
 
