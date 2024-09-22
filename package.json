@@ -16,9 +16,7 @@
         "type": "git",
         "url": "git+https://github.com/IrvingWash/ironworker.git"
     },
-    "keywords": [
-        "lastfm"
-    ],
+    "keywords": ["lastfm"],
     "author": "WI",
     "license": "MIT",
     "bugs": {
