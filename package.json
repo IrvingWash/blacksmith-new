@@ -1,0 +1,23 @@
+{
+    "name": "blacksmith",
+    "version": "0.0.1",
+    "description": "last.fm scrobbler",
+    "main": "main.ts",
+    "scripts": {},
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/IrvingWash/ironworker.git"
+    },
+    "keywords": [
+        "lastfm"
+    ],
+    "author": "WI",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/IrvingWash/ironworker/issues"
+    },
+    "homepage": "https://github.com/IrvingWash/ironworker#readme",
+    "devDependencies": {
+        "typescript": "^5.6.2"
+    }
+}
