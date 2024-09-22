@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { LastFmAuthRedirectViewModel } from "@gui/last-fm-auth-redirect/last-fm-auth-redirect-view-model";
-import { LastFmAuthRedirect } from "@gui/last-fm-auth-redirect/last-fm-auth-redirect";
+import { LastFmAuthRedirectViewModel } from "@gui/lastfm-auth-redirect/lastfm-auth-redirect-view-model";
+import { LastFmAuthRedirect } from "@gui/lastfm-auth-redirect/lastfm-auth-redirect";
 import { LastFm } from "@lastfm/lastfm";
 
 const orvm = new LastFmAuthRedirectViewModel();
