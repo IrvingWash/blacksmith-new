@@ -1,16 +1,51 @@
 import {
+    RequestAlbumInfoPayload,
     ScrobbleTrackPayload,
-    Track,
+    RecentTrack,
     TrackScrobblingResult,
+    AlbumInfo,
 } from "@domain/objects";
 
 import {
+    LastFmAlbumInfo,
+    LastFmGetAlbumInfoPayload,
     LastFmImage,
     LastFmImageSize,
     LastFmRecentTrack,
     LastFmScrobblePayload,
     LastFmScrobbleResult,
 } from "@lastfm/lastfm-objects";
+
+export function convertAlbumInfoFromLastFm(
+    lastFmAlbumInfo: LastFmAlbumInfo
+): AlbumInfo {
+    const lastFmAlbum = lastFmAlbumInfo.album;
+
+    return {
+        artistName: lastFmAlbum.artist,
+        lastFmImageUrl: lastFmAlbum.image.find(findLargeImage)?.["#text"],
+        lastFmUrl: lastFmAlbum.url,
+        title: lastFmAlbum.name,
+        tracks: lastFmAlbum.tracks.track.map((track) => {
+            return {
+                trackNumber: track["@attr"].rank,
+                artistName: track.artist.name,
+                lastFmUrl: track.url,
+                title: track.name,
+            };
+        }),
+    };
+}
+
+export function convertRequestAlbumInfoPayloadToLastFm(
+    params: RequestAlbumInfoPayload
+): LastFmGetAlbumInfoPayload {
+    return {
+        album: params.albumTitle,
+        artist: params.artistName,
+        autocorrect: params.autoCorrect ? "1" : "0",
+    };
+}
 
 export function convertScrobblingResultFromLastFm(
     lastFmScrobblingResult: LastFmScrobbleResult
@@ -41,7 +76,7 @@ export function convertScrobbleTrackPayloadToLastFm(
 
 export function convertRecentTrackFromLastFm(
     lastFmRecentTrack: LastFmRecentTrack
-): Track {
+): RecentTrack {
     return {
         title: lastFmRecentTrack.name,
         albumTitle: lastFmRecentTrack.album["#text"],
@@ -49,7 +84,7 @@ export function convertRecentTrackFromLastFm(
         lastFmUrl: lastFmRecentTrack.url,
         timestamp: lastFmRecentTrack.date.uts,
         isLoved: lastFmRecentTrack.loved === "1",
-        imageUrl: lastFmRecentTrack.image.find(findLargeImage)?.["#text"],
+        lastFmImageUrl: lastFmRecentTrack.image.find(findLargeImage)?.["#text"],
     };
 }
 

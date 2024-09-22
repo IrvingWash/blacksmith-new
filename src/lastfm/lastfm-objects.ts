@@ -1,3 +1,5 @@
+export type LastFmBinary = "0" | "1";
+
 export interface LastFmSession {
     session: {
         key: string;
@@ -37,7 +39,7 @@ export interface LastFmRecentTrack {
     name: string;
     streamable: string;
     url: string;
-    loved: "0" | "1";
+    loved: LastFmBinary;
 }
 
 export interface LastFmImage {
@@ -96,4 +98,45 @@ export interface LastFmScrobbleResult {
             };
         };
     };
+}
+
+export interface LastFmGetAlbumInfoPayload {
+    artist: string;
+    album: string;
+    autocorrect: LastFmBinary;
+}
+
+export interface LastFmAlbumInfo {
+    album: {
+        artist: string;
+        listeners: string;
+        mbid: string;
+        image: LastFmImage[];
+        name: string;
+        playcount: string;
+        tracks: LastFmAlbumTracks;
+        url: string;
+    };
+}
+
+export interface LastFmAlbumTracks {
+    track: LastFmAlbumTrack[];
+}
+
+export interface LastFmAlbumTrack {
+    "@attr": {
+        rank: number;
+    };
+    artist: {
+        mbid: string;
+        name: string;
+        url: string;
+    };
+    duration: number;
+    name: string;
+    streamable: {
+        "#text": string;
+        fulltrack: string;
+    };
+    url: string;
 }

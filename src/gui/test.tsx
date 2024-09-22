@@ -43,6 +43,12 @@ export function Test(): React.JSX.Element {
                     >
                         Scrobble
                     </button>
+                    <button
+                        type="button"
+                        onClick={handleAlbumInfoClick}
+                    >
+                        Album info
+                    </button>
                 </div>
             )}
         </>
@@ -67,6 +73,18 @@ export function Test(): React.JSX.Element {
             mbid: undefined,
             timestamp: Date.now(),
             trackName: "I Sat By The Ocean",
+        });
+
+        // biome-ignore lint/suspicious/noConsoleLog: <explanation>
+        // biome-ignore lint/suspicious/noConsole: <explanation>
+        console.log(x);
+    }
+
+    async function handleAlbumInfoClick(): Promise<void> {
+        const x = await lastFm.albumInfo({
+            albumTitle: "...Like Clockwork",
+            artistName: "Queens Of The Stone Age",
+            autoCorrect: true,
         });
 
         // biome-ignore lint/suspicious/noConsoleLog: <explanation>

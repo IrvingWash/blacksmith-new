@@ -1,11 +1,18 @@
-export interface Track {
-    title: string;
-    albumTitle: string;
+interface TrackBase {
     artistName: string;
+    title: string;
     lastFmUrl: string;
+}
+
+export interface Track extends TrackBase {
+    trackNumber: number;
+}
+
+export interface RecentTrack extends TrackBase {
+    albumTitle: string;
     timestamp: string;
     isLoved: boolean;
-    imageUrl: string | undefined;
+    lastFmImageUrl: string | undefined;
 }
 
 export interface UserCredentials {
@@ -25,4 +32,18 @@ export interface ScrobbleTrackPayload {
 export interface TrackScrobblingResult {
     accepted: boolean;
     ignoringMessage?: string;
+}
+
+export interface RequestAlbumInfoPayload {
+    artistName: string;
+    albumTitle: string;
+    autoCorrect?: boolean;
+}
+
+export interface AlbumInfo {
+    artistName: string;
+    lastFmImageUrl?: string;
+    title: string;
+    tracks: Track[];
+    lastFmUrl: string;
 }

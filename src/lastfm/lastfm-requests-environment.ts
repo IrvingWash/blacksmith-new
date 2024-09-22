@@ -3,7 +3,11 @@ import { HttpMethod } from "@utils/http/http-method";
 import { addQueryParams } from "@utils/http/query-params-adder";
 import { RequestMetaInfo } from "@utils/http/request-meta-info";
 import { LastFmCallSigner } from "@lastfm/lastfm-call-signer";
-import { LastFmScrobblePayload } from "@lastfm/lastfm-objects";
+import {
+    LastFmBinary,
+    LastFmGetAlbumInfoPayload,
+    LastFmScrobblePayload,
+} from "@lastfm/lastfm-objects";
 
 const formatQueryParams = ["format", "json"] as const;
 
@@ -11,6 +15,7 @@ const enum LastFmMethods {
     AuthGetSession = "auth.getSession",
     UserGetResentTracks = "user.getRecentTracks",
     TrackScrobble = "track.scrobble",
+    AlbumGetInfo = "album.getInfo",
 }
 
 export class LastFmRequestsEnvironment {
@@ -68,7 +73,7 @@ export class LastFmRequestsEnvironment {
 
     public getRecentTracks(
         user: string,
-        extended: "0" | "1" = "0"
+        extended: LastFmBinary = "0"
     ): RequestMetaInfo {
         const url = new URL(this._baseUrl);
 
@@ -104,6 +109,24 @@ export class LastFmRequestsEnvironment {
         return {
             url,
             method: HttpMethod.Post,
+        };
+    }
+
+    public getAlbumInfo(params: LastFmGetAlbumInfoPayload): RequestMetaInfo {
+        const url = new URL(this._baseUrl);
+
+        addQueryParams(url, {
+            ...params,
+            method: LastFmMethods.AlbumGetInfo,
+            // biome-ignore lint/style/useNamingConvention: External API
+            api_key: this._apiKey,
+        });
+
+        this._appendCommonQueryParams(url);
+
+        return {
+            url,
+            method: HttpMethod.Get,
         };
     }
 

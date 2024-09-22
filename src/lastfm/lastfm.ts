@@ -1,6 +1,7 @@
 import {
+    RequestAlbumInfoPayload,
     ScrobbleTrackPayload,
-    Track,
+    RecentTrack,
     TrackScrobblingResult,
 } from "@domain/objects";
 
@@ -12,7 +13,9 @@ import { LastFmCallSigner } from "@lastfm/lastfm-call-signer";
 import { LastFmTransport } from "@lastfm/lastfm-transport";
 
 import {
+    convertAlbumInfoFromLastFm,
     convertRecentTrackFromLastFm,
+    convertRequestAlbumInfoPayloadToLastFm,
     convertScrobbleTrackPayloadToLastFm,
     convertScrobblingResultFromLastFm,
 } from "@lastfm/lastfm-converters";
@@ -50,7 +53,7 @@ export class LastFm {
         await this._authorizationProvider.signIn();
     }
 
-    public async recentTracks(username: string): Promise<Track[]> {
+    public async recentTracks(username: string): Promise<RecentTrack[]> {
         const lastFmRecentTracks = await this._transport.getRecentTracks(
             username,
             true
@@ -69,5 +72,13 @@ export class LastFm {
         );
 
         return convertScrobblingResultFromLastFm(result);
+    }
+
+    public async albumInfo(params: RequestAlbumInfoPayload): Promise<unknown> {
+        const result = await this._transport.getAlbumInfo(
+            convertRequestAlbumInfoPayloadToLastFm(params)
+        );
+
+        return convertAlbumInfoFromLastFm(result);
     }
 }
