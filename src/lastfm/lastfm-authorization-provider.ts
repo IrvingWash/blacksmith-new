@@ -1,4 +1,3 @@
-import { EnvExtractor } from "@utils/env-extractor";
 import { getAuthRedirectUrl } from "@utils/authentication";
 import { LastFmRequestsEnvironment } from "@lastfm/lastfm-requests-environment";
 
@@ -14,16 +13,21 @@ export const enum LastFmAuthenticationHandlingParams {
 
 export class LastFmAuthorizationProvider {
     private readonly _requestsEnvironment: LastFmRequestsEnvironment;
+    private readonly _apiKey: string;
 
-    public constructor(requestsEnvironment: LastFmRequestsEnvironment) {
+    public constructor(
+        requestsEnvironment: LastFmRequestsEnvironment,
+        apiKey: string
+    ) {
         this._requestsEnvironment = requestsEnvironment;
+        this._apiKey = apiKey;
     }
 
     public async signIn(): Promise<void> {
         const authRedirectUrl = new URL(getAuthRedirectUrl());
 
         const lastFmAuthUrl = this._requestsEnvironment.auth(
-            EnvExtractor.lastFmApiKey(),
+            this._apiKey,
             authRedirectUrl.href
         );
 

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { LastFmAuthorizationProvider } from "@lastfm/lastfm-authorization-provider";
-import { LastFmRequestsEnvironment } from "@lastfm/lastfm-requests-environment";
 import { LastFmAuthRedirectViewModel } from "@gui/last-fm-auth-redirect/last-fm-auth-redirect-view-model";
 import { LastFmAuthRedirect } from "@gui/last-fm-auth-redirect/last-fm-auth-redirect";
+import { LastFm } from "@lastfm/lastfm";
 
 const orvm = new LastFmAuthRedirectViewModel();
+const lastFm = new LastFm();
 
 export function Test(): React.JSX.Element {
     const [page, setPage] = useState<string>("main");
@@ -35,9 +35,6 @@ export function Test(): React.JSX.Element {
     );
 
     async function handleClick(): Promise<void> {
-        const re = new LastFmRequestsEnvironment();
-        const ap = new LastFmAuthorizationProvider(re);
-
-        await ap.signIn();
+        await lastFm.signIn();
     }
 }
