@@ -1,7 +1,7 @@
 import React, { DetailedHTMLProps, InputHTMLAttributes } from "react";
 import classNames from "classnames";
 
-import s from "./input.module.css";
+import s from "./form-input.module.css";
 
 interface FormInputProps
     extends DetailedHTMLProps<

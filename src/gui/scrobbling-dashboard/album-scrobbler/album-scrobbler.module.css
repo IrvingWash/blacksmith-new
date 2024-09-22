@@ -1,0 +1,14 @@
+.container {
+	width: 400px;
+}
+
+.header {
+	border-bottom: 1px solid $color-fancy-black;
+	margin-bottom: 20px;
+}
+
+.form {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}

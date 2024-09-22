@@ -24,7 +24,13 @@ export function App(props: AppProps): React.JSX.Element {
                 <>
                     <Header model={model.headerModel()} />
                     <main className={s.container}>
-                        {isSignedIn ? <ScrobblingDashboard /> : <Greeter />}
+                        {isSignedIn ? (
+                            <ScrobblingDashboard
+                                model={model.scrobblingDashboardModel()}
+                            />
+                        ) : (
+                            <Greeter />
+                        )}
                     </main>
                 </>
             )}

@@ -1,8 +1,9 @@
 import { CredentialStorage } from "@utils/credential-storage";
-import { LastFm } from "@lastfm/lastfm";
-import { HeaderViewModel } from "@gui/header/header-view-model";
-import { LastFmAuthRedirectViewModel } from "@gui/lastfm-auth-redirect/lastfm-auth-redirect-view-model";
 import { Observable } from "@utils/observable";
+import { LastFm } from "@lastfm/lastfm";
+import { LastFmAuthRedirectViewModel } from "@gui/lastfm-auth-redirect/lastfm-auth-redirect-view-model";
+import { HeaderViewModel } from "@gui/header/header-view-model";
+import { ScrobblingDashboardViewModel } from "@gui/scrobbling-dashboard/scrobbling-dashboard-view-model";
 
 export class AppViewModel {
     public isAuthenticating: boolean;
@@ -12,6 +13,7 @@ export class AppViewModel {
     private readonly _lastFm: LastFm;
     private readonly _headerModel: HeaderViewModel;
     private readonly _authRedirectModel: LastFmAuthRedirectViewModel;
+    private readonly _scrobblingDashboardModel: ScrobblingDashboardViewModel;
 
     public constructor() {
         this.isAuthenticating =
@@ -26,6 +28,10 @@ export class AppViewModel {
         );
 
         this._authRedirectModel = new LastFmAuthRedirectViewModel();
+
+        this._scrobblingDashboardModel = new ScrobblingDashboardViewModel(
+            this._lastFm
+        );
 
         this.isSignedIn$ = new Observable(
             this._credentialStorage.load()?.name !== undefined
@@ -52,5 +58,9 @@ export class AppViewModel {
 
     public authRedirectModel(): LastFmAuthRedirectViewModel {
         return this._authRedirectModel;
+    }
+
+    public scrobblingDashboardModel(): ScrobblingDashboardViewModel {
+        return this._scrobblingDashboardModel;
     }
 }

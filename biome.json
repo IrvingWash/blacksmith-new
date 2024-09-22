@@ -40,7 +40,8 @@
                 "noReactSpecificProps": "off"
             },
             "style": {
-                "useImportType": "off"
+                "useImportType": "off",
+                "noImplicitBoolean": "off"
             }
         }
     },
