@@ -1,0 +1,13 @@
+.container {
+	font-size: 56px;
+	padding: 15% 25% 0;
+}
+
+.title {
+	font-size: 64px;
+	font-weight: bold;
+}
+
+.red-text {
+	color: $color-lastfm-red;
+}

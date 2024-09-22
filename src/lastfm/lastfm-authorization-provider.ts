@@ -48,6 +48,10 @@ export class LastFmAuthorizationProvider {
         this._credentialStorage.save(sessionResponse.session);
     }
 
+    public signOut(): void {
+        this._credentialStorage.clear();
+    }
+
     private async _getToken(): Promise<TokenResponse> {
         const authRedirectUrl = new URL(getAuthRedirectUrl());
 

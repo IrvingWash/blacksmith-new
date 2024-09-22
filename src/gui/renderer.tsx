@@ -1,6 +1,8 @@
 import { createRoot } from "react-dom/client";
 import { ensureExists } from "@utils/ensure-exists";
-import { Test } from "@gui/test";
+import { App } from "@gui/app";
+import { AppViewModel } from "@gui/app-view-model";
+import "./index.css";
 
 export class Renderer {
     public renderGui(): void {
@@ -8,7 +10,9 @@ export class Renderer {
 
         const root = createRoot(rootElement);
 
-        root.render(<Test />);
+        const appViewModel = new AppViewModel();
+
+        root.render(<App model={appViewModel} />);
     }
 
     private _createRootElement(): HTMLElement {

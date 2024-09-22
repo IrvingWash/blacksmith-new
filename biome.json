@@ -36,7 +36,8 @@
                 "noStaticOnlyClass": "off"
             },
             "suspicious": {
-                "noConstEnum": "off"
+                "noConstEnum": "off",
+                "noReactSpecificProps": "off"
             },
             "style": {
                 "useImportType": "off"
@@ -53,5 +54,9 @@
             "semicolons": "always",
             "trailingCommas": "es5"
         }
+    },
+    "css": {
+        "formatter": { "enabled": false },
+        "linter": { "enabled": false }
     }
 }

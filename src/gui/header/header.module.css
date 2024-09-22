@@ -1,0 +1,27 @@
+.container {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 10px 70px;
+	border-bottom: 1px solid $color-fancy-black;
+}
+
+.logo {
+	font-weight: bold;
+}
+
+.user-block {
+	display: flex;
+	flex-direction: row;
+	gap: 10px;
+	align-items: center;
+}
+
+.user-link {
+	text-decoration: underline;
+	color: inherit;
+
+	&:hover {
+		text-decoration-color: $color-lastfm-red;
+	}
+}

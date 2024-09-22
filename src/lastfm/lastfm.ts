@@ -55,6 +55,10 @@ export class LastFm {
         await this._authorizationProvider.signIn();
     }
 
+    public signOut(): void {
+        this._authorizationProvider.signOut();
+    }
+
     public async recentTracks(username: string): Promise<RecentTrack[]> {
         const lastFmRecentTracks = await this._transport.getRecentTracks(
             username,

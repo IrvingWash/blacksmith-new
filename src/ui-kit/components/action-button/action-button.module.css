@@ -1,0 +1,22 @@
+.container {
+	padding: 5px;
+	background-color: white;
+	border: 1px solid $color-fancy-black;
+	border-radius: $size-border-radius-small;
+	color: inherit;
+	cursor: pointer;
+
+	&:hover {
+		background-color: $color-fancy-black;
+		color: white;
+	}
+
+	&:active {
+		border: 1px solid white;
+	}
+}
+
+.disabled {
+	color: gray;
+	pointer-events: none;
+}
