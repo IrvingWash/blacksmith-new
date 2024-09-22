@@ -3,6 +3,7 @@ import {
     ScrobbleTrackPayload,
     RecentTrack,
     TrackScrobblingResult,
+    AlbumInfo,
 } from "@domain/objects";
 
 import { EnvExtractor } from "@utils/env-extractor";
@@ -19,6 +20,7 @@ import {
     convertScrobbleTrackPayloadToLastFm,
     convertScrobblingResultFromLastFm,
 } from "@lastfm/lastfm-converters";
+import { extractErrorMessage } from "@utils/error-message-extractor";
 
 const baseUrl = "http://ws.audioscrobbler.com/2.0/";
 
@@ -74,11 +76,60 @@ export class LastFm {
         return convertScrobblingResultFromLastFm(result);
     }
 
-    public async albumInfo(params: RequestAlbumInfoPayload): Promise<unknown> {
+    public async albumInfo(
+        params: RequestAlbumInfoPayload
+    ): Promise<AlbumInfo> {
         const result = await this._transport.getAlbumInfo(
             convertRequestAlbumInfoPayloadToLastFm(params)
         );
 
         return convertAlbumInfoFromLastFm(result);
+    }
+
+    public async scrobbleAlbum(
+        artist: string,
+        album: string,
+        autoCorrect: boolean
+    ): Promise<TrackScrobblingResult> {
+        const albumInfo = await this.albumInfo({
+            albumTitle: album,
+            artistName: artist,
+            autoCorrect,
+        });
+
+        const scrobblePromises: Promise<TrackScrobblingResult>[] = [];
+        const timestamp = Date.now();
+
+        for (const track of albumInfo.tracks) {
+            scrobblePromises.push(
+                this.scrobbleTrack({
+                    artistName: track.artistName,
+                    timestamp: timestamp + track.trackNumber,
+                    trackName: track.title,
+                    albumTitle: albumInfo.title,
+                    trackNumber: track.trackNumber,
+                })
+            );
+        }
+
+        let scrobblingResults: TrackScrobblingResult[] = [];
+        try {
+            scrobblingResults = await Promise.all(scrobblePromises);
+        } catch (error) {
+            return {
+                accepted: false,
+                ignoringMessage: extractErrorMessage(error),
+            };
+        }
+
+        for (const result of scrobblingResults) {
+            if (!result.accepted || result.ignoringMessage !== undefined) {
+                return result;
+            }
+        }
+
+        return {
+            accepted: true,
+        };
     }
 }
