@@ -4,4 +4,9 @@ import react from "@vitejs/plugin-react";
 
 export default defineConfig({
     plugins: [react(), tsconfigPaths()],
+    css: {
+        modules: {
+            localsConvention: 'camelCaseOnly',
+        },
+    },
 });
