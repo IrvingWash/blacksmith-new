@@ -49,6 +49,12 @@ export function Test(): React.JSX.Element {
                     >
                         Album info
                     </button>
+                    <button
+                        type="button"
+                        onClick={handleScrobbleAlbumClick}
+                    >
+                        Scrobble album
+                    </button>
                 </div>
             )}
         </>
@@ -90,5 +96,17 @@ export function Test(): React.JSX.Element {
         // biome-ignore lint/suspicious/noConsoleLog: <explanation>
         // biome-ignore lint/suspicious/noConsole: <explanation>
         console.log(x);
+    }
+
+    async function handleScrobbleAlbumClick(): Promise<void> {
+        const result = await lastFm.scrobbleAlbum(
+            "Queens of the stone age",
+            "...Like clockwork",
+            true
+        );
+
+        // biome-ignore lint/suspicious/noConsoleLog: <explanation>
+        // biome-ignore lint/suspicious/noConsole: <explanation>
+        console.log(result);
     }
 }
