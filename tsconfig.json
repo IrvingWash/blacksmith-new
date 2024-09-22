@@ -6,7 +6,8 @@
         "module": "ESNext",
         "skipLibCheck": true,
         "paths": {
-            "@ui-kit/*": ["./src/ui-kit/*"]
+            "@ui-kit/*": ["./src/ui-kit/*"],
+            "@utils/*": ["./src/utils/*"]
         },
         "moduleResolution": "bundler",
         "allowImportingTsExtensions": true,

@@ -8,7 +8,7 @@
         "build": "vite build",
         "format": "biome format",
         "lint": "biome lint",
-        "test": "vitest",
+        "test": "vitest run",
         "check": "npm run format ; npm run lint ; npm run test",
         "prepare": "husky"
     },
