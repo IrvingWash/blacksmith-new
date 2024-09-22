@@ -65,3 +65,35 @@ export interface LastFmScrobblePayload {
     mbid?: string;
     album?: string;
 }
+
+export interface LastFmScrobbleResult {
+    scrobbles: {
+        "@attr": {
+            accepted: number;
+            ignored: number;
+        };
+        scrobble: {
+            album: {
+                "#text"?: string;
+                corrected: string;
+            };
+            albumArtist: {
+                "#text": string;
+                corrected: string;
+            };
+            artist: {
+                "#text": string;
+                corrected: string;
+            };
+            ignoredMessage: {
+                "#text": string;
+                corrected: string;
+            };
+            timestamp: string;
+            track: {
+                "#text": string;
+                corrected: string;
+            };
+        };
+    };
+}

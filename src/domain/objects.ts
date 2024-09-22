@@ -21,3 +21,8 @@ export interface ScrobbleTrackPayload {
     albumTitle?: string;
     mbid?: string;
 }
+
+export interface TrackScrobblingResult {
+    accepted: boolean;
+    ignoringMessage?: string;
+}

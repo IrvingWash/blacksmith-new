@@ -1,11 +1,30 @@
-import { ScrobbleTrackPayload, Track } from "@domain/objects";
+import {
+    ScrobbleTrackPayload,
+    Track,
+    TrackScrobblingResult,
+} from "@domain/objects";
 
 import {
     LastFmImage,
     LastFmImageSize,
     LastFmRecentTrack,
     LastFmScrobblePayload,
+    LastFmScrobbleResult,
 } from "@lastfm/lastfm-objects";
+
+export function convertScrobblingResultFromLastFm(
+    lastFmScrobblingResult: LastFmScrobbleResult
+): TrackScrobblingResult {
+    const result = lastFmScrobblingResult.scrobbles;
+
+    return {
+        accepted: result["@attr"].ignored === 0,
+        ignoringMessage:
+            result.scrobble.ignoredMessage["#text"] !== undefined
+                ? result.scrobble.ignoredMessage["#text"]
+                : undefined,
+    };
+}
 
 export function convertScrobbleTrackPayloadToLastFm(
     params: ScrobbleTrackPayload

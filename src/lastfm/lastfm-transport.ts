@@ -2,6 +2,7 @@ import { LastFmRequestsEnvironment } from "@lastfm/lastfm-requests-environment";
 import { lastFmFetch } from "@lastfm/lastfm-fetch";
 import {
     LastFmRecentTracks,
+    LastFmScrobbleResult,
     LastFmScrobblePayload as LastFmScrobbleTrackPayload,
 } from "@lastfm/lastfm-objects";
 
@@ -24,7 +25,9 @@ export class LastFmTransport {
         return lastFmFetch(requestMetaInfo);
     }
 
-    public scrobble(params: LastFmScrobbleTrackPayload): Promise<unknown> {
+    public scrobble(
+        params: LastFmScrobbleTrackPayload
+    ): Promise<LastFmScrobbleResult> {
         const requestMetaInfo = this._requestsEnvironment.scrobble(params);
 
         return lastFmFetch(requestMetaInfo);
