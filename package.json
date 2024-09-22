@@ -16,7 +16,9 @@
         "type": "git",
         "url": "git+https://github.com/IrvingWash/ironworker.git"
     },
-    "keywords": ["lastfm"],
+    "keywords": [
+        "lastfm"
+    ],
     "author": "WI",
     "license": "MIT",
     "bugs": {
@@ -26,6 +28,7 @@
     "homepage": "https://github.com/IrvingWash/ironworker#readme",
     "devDependencies": {
         "@biomejs/biome": "1.9.2",
+        "@types/node": "^22.5.5",
         "@types/react": "^18.3.8",
         "@types/react-dom": "^18.3.0",
         "@vitejs/plugin-react": "^4.3.1",

@@ -7,7 +7,9 @@
         "skipLibCheck": true,
         "paths": {
             "@ui-kit/*": ["./src/ui-kit/*"],
-            "@utils/*": ["./src/utils/*"]
+            "@utils/*": ["./src/utils/*"],
+            "@lastfm/*": ["./src/lastfm/*"],
+            "@gui/*": ["./src/gui/*"]
         },
         "moduleResolution": "bundler",
         "allowImportingTsExtensions": true,

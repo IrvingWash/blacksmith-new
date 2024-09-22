@@ -26,10 +26,20 @@
             "all": true,
             "nursery": {
                 "all": true,
-                "useStrictMode": "off"
+                "useStrictMode": "off",
+                "useConsistentMemberAccessibility": "off"
             },
             "correctness": {
                 "noUndeclaredDependencies": "off"
+            },
+            "complexity": {
+                "noStaticOnlyClass": "off"
+            },
+            "suspicious": {
+                "noConstEnum": "off"
+            },
+            "style": {
+                "useImportType": "off"
             }
         }
     },
