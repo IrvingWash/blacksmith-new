@@ -27,16 +27,31 @@ export function Test(): React.JSX.Element {
                 <div>
                     <button
                         type="button"
-                        onClick={handleClick}
+                        onClick={handleSignInClick}
                     >
                         Authenticate
+                    </button>
+                    <button
+                        type="button"
+                        onClick={handleRecentTracksClick}
+                    >
+                        Get recent tracks
                     </button>
                 </div>
             )}
         </>
     );
 
-    async function handleClick(): Promise<void> {
+    async function handleSignInClick(): Promise<void> {
         await lastFm.signIn();
+    }
+
+    async function handleRecentTracksClick(): Promise<void> {
+        // biome-ignore lint/style/noNonNullAssertion: <explanation>
+        const x = await lastFm.recentTracks(cs.load()!.name);
+
+        // biome-ignore lint/suspicious/noConsoleLog: <explanation>
+        // biome-ignore lint/suspicious/noConsole: <explanation>
+        console.log(x);
     }
 }

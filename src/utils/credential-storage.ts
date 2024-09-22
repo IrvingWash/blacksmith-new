@@ -10,7 +10,7 @@ export class CredentialStorage {
         localStorage.setItem(this._key, JSON.stringify(credentials));
     }
 
-    public load(): CredentialStorage | null {
+    public load(): Credentials | null {
         const item = localStorage.getItem(this._key);
 
         if (item === null) {

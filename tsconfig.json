@@ -6,10 +6,11 @@
         "module": "ESNext",
         "skipLibCheck": true,
         "paths": {
-            "@ui-kit/*": ["./src/ui-kit/*"],
+            "@domain/*": ["./src/domain/*"],
             "@utils/*": ["./src/utils/*"],
             "@lastfm/*": ["./src/lastfm/*"],
-            "@gui/*": ["./src/gui/*"]
+            "@gui/*": ["./src/gui/*"],
+            "@ui-kit/*": ["./src/ui-kit/*"]
         },
         "moduleResolution": "bundler",
         "allowImportingTsExtensions": true,

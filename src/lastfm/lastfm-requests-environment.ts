@@ -7,25 +7,32 @@ const formatQueryParams = ["format", "json"] as const;
 
 const enum LastFmMethods {
     AuthGetSession = "auth.getSession",
+    UserGetResentTracks = "user.getRecentTracks",
 }
 
 export class LastFmRequestsEnvironment {
     private _baseUrl: string;
+    private _apiKey: string;
     private _callSigner: LastFmCallSigner;
 
-    public constructor(baseUrl: string, callSigner: LastFmCallSigner) {
+    public constructor(
+        baseUrl: string,
+        apiKey: string,
+        callSigner: LastFmCallSigner
+    ) {
         this._baseUrl = baseUrl;
+        this._apiKey = apiKey;
         this._callSigner = callSigner;
     }
 
     private _authUrl: URL = new URL("http://www.last.fm/api/auth/");
 
-    public auth(apiKey: string, cb: string): RequestMetaInfo {
+    public auth(cb: string): RequestMetaInfo {
         const url = new URL(this._authUrl);
 
         addQueryParams(url, {
             // biome-ignore lint/style/useNamingConvention: External API
-            api_key: apiKey,
+            api_key: this._apiKey,
             cb,
         });
 
@@ -35,12 +42,12 @@ export class LastFmRequestsEnvironment {
         };
     }
 
-    public getSession(apiKey: string, token: string): RequestMetaInfo {
+    public getSession(token: string): RequestMetaInfo {
         const url = new URL(this._baseUrl);
 
         addQueryParams(url, {
             // biome-ignore lint/style/useNamingConvention: External API
-            api_key: apiKey,
+            api_key: this._apiKey,
             token,
             method: LastFmMethods.AuthGetSession,
         });
@@ -50,6 +57,28 @@ export class LastFmRequestsEnvironment {
         return {
             method: HttpMethod.Get,
             url,
+        };
+    }
+
+    public getRecentTracks(
+        user: string,
+        extended: "0" | "1" = "0"
+    ): RequestMetaInfo {
+        const url = new URL(this._baseUrl);
+
+        addQueryParams(url, {
+            user,
+            extended,
+            // biome-ignore lint/style/useNamingConvention: External API
+            api_key: this._apiKey,
+            method: LastFmMethods.UserGetResentTracks,
+        });
+
+        this._appendCommonQueryParams(url);
+
+        return {
+            url,
+            method: HttpMethod.Get,
         };
     }
 
