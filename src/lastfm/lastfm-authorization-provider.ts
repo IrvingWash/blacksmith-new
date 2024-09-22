@@ -36,6 +36,8 @@ export class LastFmAuthorizationProvider {
 
         const tokenResponse = await this._waitForToken();
 
+        // biome-ignore lint/suspicious/noConsoleLog: <explanation>
+        // biome-ignore lint/suspicious/noConsole: <explanation>
         console.log(tokenResponse);
     }
 

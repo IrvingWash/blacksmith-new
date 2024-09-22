@@ -9,7 +9,7 @@
         "format": "biome format --error-on-warnings",
         "lint": "biome lint --error-on-warnings",
         "test": "vitest run",
-        "check": "npm run format ; npm run lint ; npm run test",
+        "check": "npm run format && npm run lint && npm run test",
         "prepare": "husky"
     },
     "repository": {
