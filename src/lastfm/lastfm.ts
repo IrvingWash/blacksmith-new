@@ -19,6 +19,7 @@ export class LastFm {
             baseUrl,
             callSigner
         );
+
         this._authorizationProvider = new LastFmAuthorizationProvider(
             this._requestsEnvironment,
             EnvExtractor.lastFmApiKey(),

@@ -58,6 +58,7 @@ export class LastFmRequestsEnvironment {
             "api_sig",
             this._callSigner.sign(url.searchParams)
         );
+
         url.searchParams.append(...formatQueryParams);
     }
 }
