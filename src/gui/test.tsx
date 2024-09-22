@@ -37,6 +37,12 @@ export function Test(): React.JSX.Element {
                     >
                         Get recent tracks
                     </button>
+                    <button
+                        type="button"
+                        onClick={handleScrobbleClick}
+                    >
+                        Scrobble
+                    </button>
                 </div>
             )}
         </>
@@ -49,6 +55,19 @@ export function Test(): React.JSX.Element {
     async function handleRecentTracksClick(): Promise<void> {
         // biome-ignore lint/style/noNonNullAssertion: <explanation>
         const x = await lastFm.recentTracks(cs.load()!.name);
+
+        // biome-ignore lint/suspicious/noConsoleLog: <explanation>
+        // biome-ignore lint/suspicious/noConsole: <explanation>
+        console.log(x);
+    }
+
+    async function handleScrobbleClick(): Promise<void> {
+        const x = await lastFm.scrobbleTrack({
+            artistName: "Queens Of The Stone Age",
+            mbid: undefined,
+            timestamp: Date.now(),
+            trackName: "I Sat By The Ocean",
+        });
 
         // biome-ignore lint/suspicious/noConsoleLog: <explanation>
         // biome-ignore lint/suspicious/noConsole: <explanation>

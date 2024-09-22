@@ -1,28 +1,34 @@
+import { CredentialStorage } from "@utils/credential-storage";
 import { HttpMethod } from "@utils/http/http-method";
 import { addQueryParams } from "@utils/http/query-params-adder";
 import { RequestMetaInfo } from "@utils/http/request-meta-info";
 import { LastFmCallSigner } from "@lastfm/lastfm-call-signer";
+import { LastFmScrobblePayload } from "@lastfm/lastfm-objects";
 
 const formatQueryParams = ["format", "json"] as const;
 
 const enum LastFmMethods {
     AuthGetSession = "auth.getSession",
     UserGetResentTracks = "user.getRecentTracks",
+    TrackScrobble = "track.scrobble",
 }
 
 export class LastFmRequestsEnvironment {
     private _baseUrl: string;
     private _apiKey: string;
     private _callSigner: LastFmCallSigner;
+    private _credentialStorage: CredentialStorage;
 
     public constructor(
         baseUrl: string,
         apiKey: string,
-        callSigner: LastFmCallSigner
+        callSigner: LastFmCallSigner,
+        credentialStorage: CredentialStorage
     ) {
         this._baseUrl = baseUrl;
         this._apiKey = apiKey;
         this._callSigner = callSigner;
+        this._credentialStorage = credentialStorage;
     }
 
     private _authUrl: URL = new URL("http://www.last.fm/api/auth/");
@@ -79,6 +85,25 @@ export class LastFmRequestsEnvironment {
         return {
             url,
             method: HttpMethod.Get,
+        };
+    }
+
+    public scrobble(params: LastFmScrobblePayload): RequestMetaInfo {
+        const url = new URL(this._baseUrl);
+
+        addQueryParams(url, {
+            ...params,
+            method: LastFmMethods.TrackScrobble,
+            // biome-ignore lint/style/useNamingConvention: External API
+            api_key: this._apiKey,
+            sk: this._credentialStorage.load()?.key,
+        });
+
+        this._appendCommonQueryParams(url);
+
+        return {
+            url,
+            method: HttpMethod.Post,
         };
     }
 

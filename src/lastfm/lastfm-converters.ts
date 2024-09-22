@@ -1,12 +1,26 @@
-import { Track } from "@domain/objects";
+import { ScrobbleTrackPayload, Track } from "@domain/objects";
 
 import {
     LastFmImage,
     LastFmImageSize,
     LastFmRecentTrack,
+    LastFmScrobblePayload,
 } from "@lastfm/lastfm-objects";
 
-export function convertRecentTrack(
+export function convertScrobbleTrackPayloadToLastFm(
+    params: ScrobbleTrackPayload
+): LastFmScrobblePayload {
+    return {
+        artist: params.artistName,
+        timestamp: params.timestamp / 1000,
+        track: params.trackName,
+        album: params.albumTitle,
+        mbid: params.mbid,
+        trackNumber: params.trackNumber,
+    };
+}
+
+export function convertRecentTrackFromLastFm(
     lastFmRecentTrack: LastFmRecentTrack
 ): Track {
     return {

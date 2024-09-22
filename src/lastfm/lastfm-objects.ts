@@ -1,4 +1,4 @@
-export interface LastFmGetSessionResponse {
+export interface LastFmSession {
     session: {
         key: string;
         name: string;
@@ -54,4 +54,14 @@ export const enum LastFmImageSize {
     Large = "large",
     ExtraLarge = "extralarge",
     Mega = "mega",
+}
+
+export interface LastFmScrobblePayload {
+    [key: string]: string | number | undefined;
+    artist: string;
+    track: string;
+    timestamp: number;
+    trackNumber?: number;
+    mbid?: string;
+    album?: string;
 }

@@ -1,7 +1,7 @@
 import { getAuthRedirectUrl } from "@utils/authentication";
 import { CredentialStorage } from "@utils/credential-storage";
 import { LastFmRequestsEnvironment } from "@lastfm/lastfm-requests-environment";
-import { LastFmGetSessionResponse } from "@lastfm/lastfm-objects";
+import { LastFmSession } from "@lastfm/lastfm-objects";
 import { lastFmFetch } from "@lastfm/lastfm-fetch";
 
 interface SuccessTokenResponse {
@@ -77,7 +77,7 @@ export class LastFmAuthorizationProvider {
         });
     }
 
-    private _getSession(token: string): Promise<LastFmGetSessionResponse> {
+    private _getSession(token: string): Promise<LastFmSession> {
         const requestMetaInfo = this._requestsEnvironment.getSession(token);
 
         return lastFmFetch(requestMetaInfo);

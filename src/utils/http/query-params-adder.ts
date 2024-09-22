@@ -1,5 +1,12 @@
-export function addQueryParams(url: URL, params: Record<string, string>) {
+export function addQueryParams(
+    url: URL,
+    params: Record<string, string | number | boolean | undefined | null>
+) {
     for (const [k, v] of Object.entries(params)) {
-        url.searchParams.append(k, v);
+        if (v === undefined || v === null) {
+            continue;
+        }
+
+        url.searchParams.append(k, String(v));
     }
 }

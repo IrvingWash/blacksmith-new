@@ -12,3 +12,12 @@ export interface UserCredentials {
     name: string;
     key: string;
 }
+
+export interface ScrobbleTrackPayload {
+    artistName: string;
+    trackName: string;
+    timestamp: number;
+    trackNumber?: number;
+    albumTitle?: string;
+    mbid?: string;
+}

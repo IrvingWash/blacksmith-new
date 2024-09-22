@@ -1,11 +1,14 @@
-import { Track } from "@domain/objects";
+import { ScrobbleTrackPayload, Track } from "@domain/objects";
 import { EnvExtractor } from "@utils/env-extractor";
 import { CredentialStorage } from "@utils/credential-storage";
 import { LastFmRequestsEnvironment } from "@lastfm/lastfm-requests-environment";
 import { LastFmAuthorizationProvider } from "@lastfm/lastfm-authorization-provider";
 import { LastFmCallSigner } from "@lastfm/lastfm-call-signer";
 import { LastFmTransport } from "@lastfm/lastfm-transport";
-import { convertRecentTrack } from "@lastfm/lastfm-converters";
+import {
+    convertRecentTrackFromLastFm,
+    convertScrobbleTrackPayloadToLastFm,
+} from "@lastfm/lastfm-converters";
 
 const baseUrl = "http://ws.audioscrobbler.com/2.0/";
 
@@ -24,7 +27,8 @@ export class LastFm {
         this._requestsEnvironment = new LastFmRequestsEnvironment(
             baseUrl,
             apiKey,
-            callSigner
+            callSigner,
+            credentialStorage
         );
 
         this._authorizationProvider = new LastFmAuthorizationProvider(
@@ -45,6 +49,14 @@ export class LastFm {
             true
         );
 
-        return lastFmRecentTracks.recenttracks.track.map(convertRecentTrack);
+        return lastFmRecentTracks.recenttracks.track.map(
+            convertRecentTrackFromLastFm
+        );
+    }
+
+    public scrobbleTrack(params: ScrobbleTrackPayload): Promise<unknown> {
+        return this._transport.scrobble(
+            convertScrobbleTrackPayloadToLastFm(params)
+        );
     }
 }
