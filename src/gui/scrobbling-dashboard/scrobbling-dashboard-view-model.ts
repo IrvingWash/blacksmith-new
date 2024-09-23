@@ -1,20 +1,30 @@
 import { TrackScrobblingResult } from "@domain/objects";
 import { LastFm } from "@lastfm/lastfm";
 import { AlbumScrobblerViewModel } from "@gui/scrobbling-dashboard/album-scrobbler/album-scrobbler-view-model";
+import { RecentTracksViewModel } from "@gui/scrobbling-dashboard/recent-tracks/recent-tracks-view-model";
 
 export class ScrobblingDashboardViewModel {
     private _lastFm: LastFm;
     private _albumScrobblerModel: AlbumScrobblerViewModel;
+    private _recentTracksModel: RecentTracksViewModel;
 
     public constructor(lastFm: LastFm) {
         this._lastFm = lastFm;
+
         this._albumScrobblerModel = new AlbumScrobblerViewModel(
             this._scrobbleAlbum
+        );
+        this._recentTracksModel = new RecentTracksViewModel(
+            this._lastFm.recentTracks.bind(this._lastFm)
         );
     }
 
     public albumScrobblerModel(): AlbumScrobblerViewModel {
         return this._albumScrobblerModel;
+    }
+
+    public recentTracksModel(): RecentTracksViewModel {
+        return this._recentTracksModel;
     }
 
     private _scrobbleAlbum = (
