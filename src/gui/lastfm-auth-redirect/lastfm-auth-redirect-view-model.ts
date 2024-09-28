@@ -1,24 +1,39 @@
+import { Observable } from "@utils/observable";
 import { LastFmAuthenticationHandlingParams } from "@lastfm/lastfm-authorization-provider";
 
 export class LastFmAuthRedirectViewModel {
+    public isOutgoing$: Observable<boolean>;
+
+    private _lastFmAuthUrl: string | null = null;
+
+    public constructor() {
+        this.isOutgoing$ = new Observable(false);
+    }
+
     public handleRedirect(): void {
         const currentUrl = new URL(window.location.href);
 
-        const lastFmAuthUrl = currentUrl.searchParams.get(
+        this._lastFmAuthUrl = currentUrl.searchParams.get(
             LastFmAuthenticationHandlingParams.LastFmAuthUrl
         );
 
-        if (lastFmAuthUrl !== null) {
-            this._handleOutgoing(lastFmAuthUrl);
+        if (this._lastFmAuthUrl !== null) {
+            this._handleOutgoing();
         } else {
             this._handleIncoming(currentUrl);
+            window.close();
         }
-
-        window.close();
     }
 
-    private _handleOutgoing(lastFmAuthUrl: string): void {
-        window.open(lastFmAuthUrl);
+    public redirectToLastfm(): void {
+        if (this._lastFmAuthUrl !== null) {
+            window.open(this._lastFmAuthUrl);
+            window.close();
+        }
+    }
+
+    private _handleOutgoing(): void {
+        this.isOutgoing$.setValue(true);
     }
 
     private _handleIncoming(currentUrl: URL): void {
