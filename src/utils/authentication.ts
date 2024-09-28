@@ -1,3 +1,8 @@
+import { EnvExtractor } from "@utils/env-extractor";
+
 export function getAuthRedirectUrl(): URL {
-    return new URL("auth-redirect", window.location.origin);
+    return new URL(
+        `${EnvExtractor.basePath()}/auth-redirect`,
+        window.location.origin
+    );
 }
