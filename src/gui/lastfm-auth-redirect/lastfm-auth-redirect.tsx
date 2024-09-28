@@ -20,7 +20,8 @@ export function LastFmAuthRedirect(
 
     return (
         <div className={s.container}>
-            <p>blacksmith-last.fm auth redirect</p>
+            {/* biome-ignore lint/nursery/useConsistentCurlyBraces: <explanation> */}
+            <p>{"blacksmith <-> last.fm auth redirect"}</p>
             {isOutgoing && (
                 <ActionButton onClick={() => model.redirectToLastfm()}>
                     go to lastfm to authenticate

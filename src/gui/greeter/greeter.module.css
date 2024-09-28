@@ -1,13 +1,26 @@
 .container {
-	font-size: 56px;
-	padding: 15% 25% 0;
+    font-size: 56px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .title {
-	font-size: 64px;
-	font-weight: bold;
+    font-size: 64px;
+    font-weight: bold;
 }
 
 .red-text {
-	color: $color-lastfm-red;
+    color: $color-lastfm-red;
+}
+
+@media only screen and (max-width: 600px) {
+    .container {
+        font-size: 28px;
+    }
+
+    .title {
+        font-size: 32px;
+    }
 }
