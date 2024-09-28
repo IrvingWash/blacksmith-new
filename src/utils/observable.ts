@@ -1,5 +1,29 @@
 export type Observer<T> = (value: T) => void;
 
+export class Signal {
+    private _observers: Observer<undefined>[] = [];
+
+    public fire() {
+        this._signalize();
+    }
+
+    public subscribe(observer: Observer<undefined>) {
+        this._observers.push(observer);
+    }
+
+    public unsubscribe(observerToRemove: Observer<undefined>): void {
+        this._observers = this._observers.filter(
+            (observer) => observer !== observerToRemove
+        );
+    }
+
+    private _signalize(): void {
+        for (const observer of this._observers) {
+            observer(undefined);
+        }
+    }
+}
+
 export class Observable<T> {
     private _value: T;
     private _observers: Observer<T>[] = [];

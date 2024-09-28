@@ -1,11 +1,11 @@
 import { TrackScrobblingResult } from "@domain/objects";
-import { Observable } from "@utils/observable";
+import { Observable, Signal } from "@utils/observable";
 
 export class AlbumScrobblerViewModel {
     public readonly artist$: Observable<string | null>;
     public readonly album$: Observable<string | null>;
     public readonly isBlocked$: Observable<boolean>;
-    private readonly _shouldRefresh$: Observable<undefined>;
+    private readonly _shouldRefresh$: Signal;
 
     private readonly _scrobbleAlbum: (
         artist: string,
@@ -19,7 +19,7 @@ export class AlbumScrobblerViewModel {
             album: string,
             autoCorrect: boolean
         ) => Promise<TrackScrobblingResult>,
-        shouldRefresh$: Observable<undefined>
+        shouldRefresh$: Signal
     ) {
         this.artist$ = new Observable<string | null>(null);
         this.album$ = new Observable<string | null>(null);
@@ -48,7 +48,7 @@ export class AlbumScrobblerViewModel {
         this.isBlocked$.setValue(false);
         this._clear();
 
-        this._shouldRefresh$.setValue(undefined);
+        this._shouldRefresh$.fire();
     }
 
     private _clear(): void {

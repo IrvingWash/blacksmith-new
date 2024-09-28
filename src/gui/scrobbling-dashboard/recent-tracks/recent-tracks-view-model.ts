@@ -1,16 +1,16 @@
 import { RecentTrack } from "@domain/objects";
-import { Observable } from "@utils/observable";
+import { Observable, Signal } from "@utils/observable";
 
 export class RecentTracksViewModel {
     public recentTracks$: Observable<RecentTrack[]>;
     public isLoading$: Observable<boolean>;
 
     private _getRecentTracks: (username: string) => Promise<RecentTrack[]>;
-    private _shouldRefresh: Observable<undefined>;
+    private _shouldRefresh: Signal;
 
     public constructor(
         recentTracksGetter: (username: string) => Promise<RecentTrack[]>,
-        shouldRefresh$: Observable<undefined>
+        shouldRefresh$: Signal
     ) {
         this._getRecentTracks = recentTracksGetter;
 
