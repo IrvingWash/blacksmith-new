@@ -1,0 +1,6 @@
+.container {
+    display: flex;
+    gap: 5px;
+    width: 250px;
+    word-wrap: normal;
+}
