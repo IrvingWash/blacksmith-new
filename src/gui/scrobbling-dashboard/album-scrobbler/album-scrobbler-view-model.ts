@@ -5,6 +5,7 @@ export class AlbumScrobblerViewModel {
     public readonly artist$: Observable<string | null>;
     public readonly album$: Observable<string | null>;
     public readonly isBlocked$: Observable<boolean>;
+    private readonly _shouldRefresh$: Observable<undefined>;
 
     private readonly _scrobbleAlbum: (
         artist: string,
@@ -17,12 +18,14 @@ export class AlbumScrobblerViewModel {
             artist: string,
             album: string,
             autoCorrect: boolean
-        ) => Promise<TrackScrobblingResult>
+        ) => Promise<TrackScrobblingResult>,
+        shouldRefresh$: Observable<undefined>
     ) {
         this.artist$ = new Observable<string | null>(null);
         this.album$ = new Observable<string | null>(null);
         this.isBlocked$ = new Observable(false);
         this._scrobbleAlbum = albumScrobbler;
+        this._shouldRefresh$ = shouldRefresh$;
     }
 
     public setArtist(value: string | null): void {
@@ -44,6 +47,8 @@ export class AlbumScrobblerViewModel {
 
         this.isBlocked$.setValue(false);
         this._clear();
+
+        this._shouldRefresh$.setValue(undefined);
     }
 
     private _clear(): void {
