@@ -4,6 +4,7 @@ import react from "@vitejs/plugin-react";
 
 // biome-ignore lint/style/noDefaultExport: Config file
 export default defineConfig({
+    base: "/blacksmith/",
     plugins: [react(), tsconfigPaths()],
     css: {
         modules: {
