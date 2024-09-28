@@ -1,5 +1,6 @@
 import { TrackScrobblingResult } from "@domain/objects";
 import { Signal } from "@utils/observable";
+import { CredentialStorage } from "@utils/credential-storage";
 import { LastFm } from "@lastfm/lastfm";
 import { AlbumScrobblerViewModel } from "@gui/scrobbling-dashboard/album-scrobbler/album-scrobbler-view-model";
 import { RecentTracksViewModel } from "@gui/scrobbling-dashboard/recent-tracks/recent-tracks-view-model";
@@ -10,7 +11,7 @@ export class ScrobblingDashboardViewModel {
     private _recentTracksModel: RecentTracksViewModel;
     private _shouldRefreshSignal$: Signal;
 
-    public constructor(lastFm: LastFm, username: string) {
+    public constructor(lastFm: LastFm, credentialStorage: CredentialStorage) {
         this._lastFm = lastFm;
         this._shouldRefreshSignal$ = new Signal();
 
@@ -20,7 +21,8 @@ export class ScrobblingDashboardViewModel {
         );
 
         this._recentTracksModel = new RecentTracksViewModel(
-            () => this._lastFm.recentTracks(username),
+            () =>
+                this._lastFm.recentTracks(credentialStorage.load()?.name ?? ""),
             this._shouldRefreshSignal$
         );
     }

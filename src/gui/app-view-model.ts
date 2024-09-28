@@ -31,7 +31,7 @@ export class AppViewModel {
 
         this._scrobblingDashboardModel = new ScrobblingDashboardViewModel(
             this._lastFm,
-            this._credentialStorage.load()?.name ?? ""
+            this._credentialStorage
         );
 
         this.isSignedIn$ = new Observable(
