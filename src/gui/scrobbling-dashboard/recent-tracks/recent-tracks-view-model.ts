@@ -5,11 +5,11 @@ export class RecentTracksViewModel {
     public recentTracks$: Observable<RecentTrack[]>;
     public isLoading$: Observable<boolean>;
 
-    private _getRecentTracks: (username: string) => Promise<RecentTrack[]>;
+    private _getRecentTracks: () => Promise<RecentTrack[]>;
     private _shouldRefresh: Signal;
 
     public constructor(
-        recentTracksGetter: (username: string) => Promise<RecentTrack[]>,
+        recentTracksGetter: () => Promise<RecentTrack[]>,
         shouldRefresh$: Signal
     ) {
         this._getRecentTracks = recentTracksGetter;
@@ -24,8 +24,7 @@ export class RecentTracksViewModel {
     public async refresh(): Promise<void> {
         this.isLoading$.setValue(true);
 
-        // TODO: Hardcode
-        this.recentTracks$.setValue(await this._getRecentTracks("IrvingWash"));
+        this.recentTracks$.setValue(await this._getRecentTracks());
 
         this.isLoading$.setValue(false);
     }

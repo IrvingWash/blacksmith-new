@@ -10,7 +10,7 @@ export class ScrobblingDashboardViewModel {
     private _recentTracksModel: RecentTracksViewModel;
     private _shouldRefreshSignal$: Signal;
 
-    public constructor(lastFm: LastFm) {
+    public constructor(lastFm: LastFm, username: string) {
         this._lastFm = lastFm;
         this._shouldRefreshSignal$ = new Signal();
 
@@ -20,7 +20,7 @@ export class ScrobblingDashboardViewModel {
         );
 
         this._recentTracksModel = new RecentTracksViewModel(
-            this._lastFm.recentTracks.bind(this._lastFm),
+            () => this._lastFm.recentTracks(username),
             this._shouldRefreshSignal$
         );
     }

@@ -30,7 +30,8 @@ export class AppViewModel {
         this._authRedirectModel = new LastFmAuthRedirectViewModel();
 
         this._scrobblingDashboardModel = new ScrobblingDashboardViewModel(
-            this._lastFm
+            this._lastFm,
+            this._credentialStorage.load()?.name ?? ""
         );
 
         this.isSignedIn$ = new Observable(
